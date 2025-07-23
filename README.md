@@ -1,13 +1,10 @@
-# Choromorph
 
-**Choromorph** is a Python-based grid morphing system for visualizing deformation processes using proximity to Points of Interest (POIs) and cohesion between neighboring nodes. Inspired by physical simulations, it combines attractive and cohesive forces in a step-wise morphing process.
-Real-world applications include visualization of map deformations around POIs, such as urban planning, environmental changes, and geographical data analysis.
----
+# Choromorph
+**Choromorph** is a Python-based grid morphing system for visualizing deformation processes using proximity to Points of Interest (POIs) and cohesion between neighboring nodes. Inspired by physical simulations, it combines attractive and cohesive forces in a step-wise morphing process. Real-world applications include visualization of map deformations around POIs, such as urban planning, environmental changes, and geographical data analysis.
 
 ## Project Structure
 
 ```
-/
 choromorph.py                   # Morphing logic
 grids.py                        # Grid construction (square/circle)
 example_grids.ipynb             # Example grids and usage
