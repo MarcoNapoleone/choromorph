@@ -20,10 +20,10 @@ demo/                           # Interactive D3 demo
 
 ## Example Output
 
-### 📈 Step-by-step Morphing (GIF)
+### Step-by-step Morphing (GIF)
 ![Choromorph GIF](images/choromorph_steps.gif)
 
-### 🖼️ Static Grid Example
+### Static Grid Example
 ![Static Grid](images/choromorph_circle_grid.png
 )
 

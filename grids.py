@@ -1,8 +1,5 @@
 # grids.py
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.collections import LineCollection
-# grids.py
 
 
 def build_square_grid(n_side: int = 20) -> tuple[np.ndarray, np.ndarray]:

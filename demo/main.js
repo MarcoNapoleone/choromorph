@@ -4,7 +4,7 @@ let width = +svg.style("width").replace("px", "");
 let height = +svg.style("height").replace("px", "");
 
 const nSide = 20;
-const threshold = 0.005;
+const threshold = 0.1;
 let grid = [];
 let edges = [];
 let neighbors = [];

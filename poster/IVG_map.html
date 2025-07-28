@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mappa delle strutture IVG in Italia</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: #fafafa;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      h1 {
+        margin: 1rem 0;
+        font-size: 1.5rem;
+      }
+      #map {
+        border: 1px solid #ccc;
+        border-radius: 0.75rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .clinic {
+        fill: #e41a1c;
+        stroke: #fff;
+        stroke-width: 0.4px;
+        cursor: pointer;
+      }
+      .clinic:hover {
+        fill: #377eb8;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Strutture che effettuano IVG (Legge 194/78) – Italia, 2023</h1>
+    <svg id="map" width="820" height="900"></svg>
+    <script>
+      /*
+       * 1.  Scarica/crea un file GeoJSON `clinics_ivg_2023.geojson` contenente
+       *     FeaturePoint con proprietà {name, address, totalIVG, pctPharmacological, region}.
+       *     Puoi generarlo con lo script Node `scripts/build_clinics_geojson.js` (vedi repo).
+       * 2.  Metti il file nella stessa cartella di questa pagina o servilo da URL pubblico.
+       * 3.  Apri la pagina con un web‑server locale (es. `npx http-server`).
+       */
+
+      const svg = d3.select("#map"),
+        width = +svg.attr("width"),
+        height = +svg.attr("height");
+
+      const projection = d3
+        .geoMercator()
+        .center([12.5, 42.5]) // Italia centrale
+        .scale(2800)
+        .translate([width / 2, height / 2]);
+
+      const path = d3.geoPath().projection(projection);
+
+      Promise.all([
+        // TopoJSON mondiale da cui estraiamo solo l'Italia
+        d3.json(
+          "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json"
+        ),
+        // GeoJSON con le strutture IVG (generato offline)
+        d3.json("data/clinics_ivg_2023_google_decode.geojson"),
+      ]).then(([world, clinics]) => {
+        // Filtra il feature dell'Italia
+        const italy = topojson
+          .feature(world, world.objects.countries)
+          .features.find((d) => d.properties.name === "Italy");
+
+        // Disegna la mappa dell'Italia
+        svg
+          .append("path")
+          .datum(italy)
+          .attr("d", path)
+          .attr("fill", "#eeeeee")
+          .attr("stroke", "#999999");
+
+        // Disegna un cerchietto per ogni struttura
+        svg
+          .append("g")
+          .attr("class", "clinics")
+          .selectAll("circle")
+          .data(clinics.features)
+          .enter()
+          .append("circle")
+          .attr("class", "clinic")
+          .attr("r", 3)
+          .attr("cx", (d) => projection(d.geometry.coordinates)[0])
+          .attr("cy", (d) => projection(d.geometry.coordinates)[1])
+          .append("title")
+          .text(
+            (d) =>
+              `${d.properties.name}\n${d.properties.address}\nTotale IVG 2023: ${d.properties.totalIVG} (farmacologiche ${d.properties.pctPharmacological}%)`
+          );
+      });
+    </script>
+  </body>
+</html>
