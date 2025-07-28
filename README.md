@@ -13,6 +13,7 @@ images/
 ├── choromorph_steps.gif        # Animation of morphing process
 ├── choromorph_circle_grid.png  # Example of circle grid
 README.md
+demo/                           # Interactive D3 demo
 ```
 
 ---
@@ -25,6 +26,13 @@ README.md
 ### 🖼️ Static Grid Example
 ![Static Grid](images/choromorph_circle_grid.png
 )
+
+## Interactive Demo
+
+The `demo` folder contains a small webpage built with D3.js that allows
+interactive experimentation with the choromorph algorithm. Open
+`demo/index.html` in a browser to drag POIs, tweak parameters and see the grid
+deform in real time.
 ---
 
 ## Parameters
